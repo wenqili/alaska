@@ -1,4 +1,3 @@
-
 //canvas
 var video;
 var width = 800;
@@ -9,83 +8,76 @@ var bottomOffSet = 50;
 
 //iceberg
 var iceHeightMax = 600;
-var iceWidthMax = 40;
 var iceHeight = [];
 var iceXPos = [];
 var iceYPos = [];
-var space = 10;
 var copyXPos = [];
 var copyYPos = [];
-// var count = width / iceWidthMax;
 
-function windowResized() {
-    resizeCanvas(windowWidth, windowWidth * (9 / 16));
+//params
+var gui = new dat.GUI();
+var params = {
+    iceWidthMax: 30,
+    space: 10,
 }
+
+var f1 = gui.addFolder('Shape Control');
+f1.add(params, 'iceWidthMax', 0, 100);
+f1.add(params, 'space', 0, 20);
+
+
 
 function setup() {
     createCanvas(windowWidth, windowWidth * (9 / 16));
     video = createCapture(VIDEO);
-    video.size(width, height);
-    // video.hide();
-
-    //generate position
-    randomIce();
 
     //interaction test
     var buttonBlow = select('#blow');
     buttonBlow.mousePressed(blow);
-    playVideo();
+    // playVideo();
+
+    //presetting
+    randomIce();
+    randomArray(copyXPos);
 }
 
 
 
 function draw() {
-    video.size(width, height);
-    background(255, 255, 255, 20);
+    randomIce();
+    video.size(windowWidth, windowWidth * (9 / 16));
+    background(255, 255, 0, 20);
     video.loadPixels();
-    createIceberg2();
+    createIceberg();
 
     // updatePixels();;
 }
 
 
-function randomIce() {
-    width = windowWidth;
-    iceHeightMax = windowWidth * (9 / 16);
-    count = width / iceWidthMax;
 
+function randomIce() {
+    iceHeightMax = windowWidth * (9 / 16);
+    count = windowWidth / params.iceWidthMax;
     for (var i = 0; i < count; i++) {
-        // iceWidth.push(random(10,iceWidthMax-1));
-        iceHeight.push(random(bottomOffSet, iceHeightMax - 2 * topOffSet));
-        // iceHeight.push(iceHeightMax);
-        //random pos
-        // copyXPos.push(random(0,width-iceWidthMax));
-        //right pos
-        copyXPos.push(iceWidthMax * i);
+        // iceHeight.push(random(2*bottomOffSet, iceHeightMax - 2 * topOffSet));
+        // copyXPos.push(params.iceWidthMax * i);
+        // copyYPos.push(iceHeightMax - iceHeight[i] - bottomOffSet);
+        // iceYPos.push(iceHeightMax - iceHeight[i] - bottomOffSet);
+        iceHeight.push(random(2*bottomOffSet, iceHeightMax - 2 * topOffSet));
+        copyXPos.push(params.iceWidthMax * i);
         copyYPos.push(iceHeightMax - iceHeight[i] - bottomOffSet);
         iceYPos.push(iceHeightMax - iceHeight[i] - bottomOffSet);
     }
-    randomArray(copyXPos);
 }
 
-// function createIceberg(){
-//   var space = 2;
-//   for(var i=0; i < count; i++ ){
-//     fill(200);
-//     rect(iceWidthMax*i,iceHeightMax-iceHeight[i],iceWidth[i]-space,iceHeight[i]);
-//     copy(video,
-//       copyXPos[i],iceHeightMax-iceHeight[i],iceWidth[i]-space,iceHeight[i],
-//       iceWidthMax*i,iceHeightMax-iceHeight[i],iceWidth[i]-space,iceHeight[i])
-//   }
-// }
 
-function createIceberg2() {
+function createIceberg() {
     for (var i = 0; i < count; i++) {
         // fill(200);
         // rect(iceWidthMax*i,iceHeightMax-iceHeight[i],50,iceHeight[i]);
         copy(video,
-            copyXPos[i], copyYPos[i], iceWidthMax - space, iceHeight[i],
-            iceWidthMax * i, iceYPos[i], iceWidthMax - space, iceHeight[i]);
+            copyXPos[i], copyYPos[i], params.iceWidthMax - params.space, iceHeight[i],
+            params.iceWidthMax * i, iceYPos[i], params.iceWidthMax - params.space, iceHeight[i]);
     }
 }
 
@@ -123,3 +115,7 @@ function playVideo() {
 }
 
 // $('#violet').show()
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowWidth * (9 / 16));
+}
