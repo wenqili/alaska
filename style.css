@@ -1,0 +1,18 @@
+html, body {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+#ice{
+	z-index: -1;
+	display: none;
+	position: absolute;
+	bottom: : 0; left: 0;
+	height: 100%;
+	/*opacity: 0.5;*/
+}
+
+video {
+  visibility: hidden;
+}
