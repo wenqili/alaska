@@ -188,6 +188,8 @@ function interact() {
         blow();
     }
 
+    sensorValue = 10;
+
     //background colorchange
 
 
@@ -195,7 +197,7 @@ function interact() {
 
 function blow() {
     console.log("blow");
-    Animation();
+    // Animation();
     // randomArray(copyXPos);
 }
 
@@ -206,5 +208,8 @@ function Animation() {
         iceYPos[i] += random(0, 5);
         // iceYPos[i] += copyYPos[i];
     }
+}
+
+function co2(){
 
 }
